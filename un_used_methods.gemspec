@@ -9,7 +9,9 @@ Gem::Specification.new do |spec|
   spec.email = ["dhamodharansathish4533@gmail.com"]
 
   spec.summary       = "A gem to identify and list unused methods in your Rails application."
-  spec.description   = "The un_used_methods gem scans your Rails application to find methods defined in models, controllers and helpers that are not used anywhere else in the application. This helps you clean up your codebase by identifying dead code."
+  spec.description   = "The un_used_methods gem scans your Rails application to find methods defined in models,
+                        controllers and helpers that are not used anywhere else in the application. This helps
+                        you clean up your codebase by identifying dead code."
   spec.homepage      = "https://github.com/Dhamo1107/un_used_methods"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
