@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'un_used_methods'
+
+UnUsedMethods::CLI.start(ARGV)
