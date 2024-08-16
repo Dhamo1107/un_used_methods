@@ -55,8 +55,28 @@ module UnUsedMethods
 
     def method_used?(method)
       # Perform a search across the entire app to see if the method is used
-      grep_result = `grep -r "#{method}" app/`
-      grep_result.split("\n").size > 1 # If found more than one occurrence (definition + usage)
+      def method_used?(method)
+        method_pattern = /#{method}/
+        files = Dir.glob('app/**/*.{rb}')
+        method_used = false
+
+        if RUBY_PLATFORM =~ /win32|win64|cygwin|mswin|mingw/
+          # Windows-specific logic
+          files.each do |file|
+            content = File.read(file)
+            if content =~ method_pattern
+              method_used = true
+              break
+            end
+          end
+        else
+          # Unix-like (Linux, macOS) specific logic using `grep`
+          grep_result = `grep -r "#{method}" app/`
+          method_used = grep_result.split("\n").size > 1
+        end
+
+        method_used
+      end
     end
 
     def report_un_used_methods(unused_methods)

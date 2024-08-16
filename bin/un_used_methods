@@ -2,5 +2,6 @@
 
 require 'bundler/setup'
 require 'un_used_methods'
+require 'un_used_methods/analyzer'
 
 UnUsedMethods::CLI.start(ARGV)
