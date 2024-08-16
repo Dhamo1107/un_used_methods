@@ -2,13 +2,12 @@
 
 # This class analyzes code to find unused methods within specific directories
 # such as models, controllers, and helpers.
-#
-# It performs the following tasks:
-# - Searches for method definitions in the specified directories.
-# - Checks if these methods are used elsewhere in the codebase.
-# - Reports methods that are not used.
 
 module UnUsedMethods
+  # It performs the following tasks:
+  # - Searches for method definitions in the specified directories.
+  # - Checks if these methods are used elsewhere in the codebase.
+  # - Reports methods that are not used.
   class Analyzer
     def analyze
       un_used_methods = find_un_used_methods
