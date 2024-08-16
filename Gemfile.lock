@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     un_used_methods (0.1.0)
+      thor (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -48,6 +49,7 @@ GEM
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
     strscan (3.1.0)
+    thor (1.3.1)
     unicode-display_width (2.5.0)
 
 PLATFORMS
