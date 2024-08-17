@@ -1,39 +1,69 @@
-# UnUsedMethods
+# UnUsedMethods Gem
 
-TODO: Delete this and the text below, and describe your gem
+[![Gem Version](https://badge.fury.io/rb/un_used_methods.svg)](https://badge.fury.io/rb/un_used_methods)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/un_used_methods`. To experiment with that code, run `bin/console` for an interactive prompt.
+The `un_used_methods` gem is designed to help you identify and clean up unused methods in your Ruby on Rails application. In a large codebase, it can be challenging to track which methods are actively used and which are obsolete. The `un_used_methods` gem scans your application's codebase and identifies methods that are defined but not used anywhere else in your project. This helps you spot and remove unnecessary code, improving maintainability and performance.
+
+
+## Features
+
+- Scans for method definitions across various directories (models, controllers, helpers, views, and more).
+- Checks for method usage in code files and view templates.
+- Reports methods that are defined but not used in the project.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's `Gemfile`:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem 'un_used_methods'
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+Then run:
 
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+bundle install
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+To use the gem, run the following command:
+
+```ruby
+bundle exec un_used_methods find_unused
+```
+
+This command will analyze your codebase and print out any unused methods it finds. The gem scans through Ruby files, HTML/ERB templates, and other relevant file types to ensure comprehensive coverage.
+
+## Example Output
+
+```plaintext
+Method 'test' called in file: app/models/test.rb
+Method 'another_method' not called anywhere in the project
+
+Unused Methods found in your model, controller and helper directories:
+app/models/test.rb: another_method
+```
+
+## Configuration
+
+The gem uses default settings to scan common directories and file types. If you need to customize the directories or file types to scan, you can modify the gem's configuration within the codebase.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+To contribute to the development of this gem:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/un_used_methods. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/un_used_methods/blob/master/CODE_OF_CONDUCT.md).
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -am 'Add some feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Create a new Pull Request.
+6. Write RSpec test cases for the features you added.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This gem is available as open source under the terms of the MIT License.
 
-## Code of Conduct
+## Acknowledgements
 
-Everyone interacting in the UnUsedMethods project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/un_used_methods/blob/master/CODE_OF_CONDUCT.md).
+This gem leverages concepts from static code analysis and method usage detection to enhance code quality.
