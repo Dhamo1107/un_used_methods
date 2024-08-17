@@ -37,10 +37,7 @@ module UnUsedMethods
       Dir.glob("#{directory}/**/*.rb").each do |file|
         methods = extract_methods(file)
         methods.each do |method|
-          if method_used?(method)
-            un_used_methods << "#{file}: #{method}"
-            p un_used_methods
-          end
+          un_used_methods << "#{file}: #{method}" if method_used?(method, file)
         end
       end
 
@@ -52,36 +49,33 @@ module UnUsedMethods
       content.scan(/def (\w+)/).flatten
     end
 
-    def method_used?(method)
-      puts "Checking if method '#{method}' is used..."
-      # Patterns to detect method calls
-      method_call_pattern = /#{method}\s*\(/
+    def method_used?(method, definition_file)
+      # Patterns to detect method calls with and without parentheses
+      method_call_pattern = /(\.|^|\s)#{method}\s*(\(|$)/
       # Search directories for relevant file types
       files = Dir.glob("app/**/*.{rb,html,erb,haml,slim,js,jsx,ts,tsx}") + Dir.glob("lib/**/*.{rb}")
-      method_defined = false
       method_used = false
       files.each do |file|
         content = File.read(file)
-        # Check for method definition
-        method_definition_pattern = /def\s+#{method}\b/
-        if content =~ method_definition_pattern
-          method_defined = true
-          puts "Method '#{method}' defined in file: #{file}"
-        end
-        # Check for method usage
-        if content =~ method_call_pattern
+        # Check for method usage (skip the method's own definition line)
+        if content =~ method_call_pattern && file != definition_file
           method_used = true
-          puts "Method '#{method}' called in file: #{file}"
+          p "Method '#{method}' called in file: #{file}"
+          break
+        elsif content.scan(method_call_pattern).count > 1 && file == definition_file
+          method_used = true
+          p "Method '#{method}' called in its own file: #{file}"
+          break
         end
       end
-      method_defined && !method_used
+      !method_used
     end
 
     def report_un_used_methods(unused_methods)
       if unused_methods.empty?
-        puts "No un used methods found!"
+        p "No un used methods found!"
       else
-        puts "Un used Methods found in your model, controller, and helper directories:"
+        p "Un used Methods found in your model, controller, and helper directories:"
         unused_methods.each { |method| puts method }
       end
     end
