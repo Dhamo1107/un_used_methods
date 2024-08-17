@@ -37,7 +37,10 @@ module UnUsedMethods
       Dir.glob("#{directory}/**/*.rb").each do |file|
         methods = extract_methods(file)
         methods.each do |method|
-          un_used_methods << "#{file}: #{method}" unless method_used?(method)
+          if method_used?(method)
+            un_used_methods << "#{file}: #{method}"
+            p un_used_methods
+          end
         end
       end
 
@@ -50,13 +53,28 @@ module UnUsedMethods
     end
 
     def method_used?(method)
-      method_pattern = /#{method}/
-      files = Dir.glob("app/**/*.{rb}")
-
-      files.any? do |file|
+      puts "Checking if method '#{method}' is used..."
+      # Patterns to detect method calls
+      method_call_pattern = /#{method}\s*\(/
+      # Search directories for relevant file types
+      files = Dir.glob("app/**/*.{rb,html,erb,haml,slim,js,jsx,ts,tsx}") + Dir.glob("lib/**/*.{rb}")
+      method_defined = false
+      method_used = false
+      files.each do |file|
         content = File.read(file)
-        content.match?(method_pattern)
+        # Check for method definition
+        method_definition_pattern = /def\s+#{method}\b/
+        if content =~ method_definition_pattern
+          method_defined = true
+          puts "Method '#{method}' defined in file: #{file}"
+        end
+        # Check for method usage
+        if content =~ method_call_pattern
+          method_used = true
+          puts "Method '#{method}' called in file: #{file}"
+        end
       end
+      method_defined && !method_used
     end
 
     def report_un_used_methods(unused_methods)

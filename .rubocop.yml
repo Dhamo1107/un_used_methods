@@ -9,3 +9,6 @@ Style/StringLiteralsInInterpolation:
 
 Lint/ScriptPermission:
   Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
