@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir = "exe"
-  spec.executables = ['un_used_methods']
+  spec.executables = ["un_used_methods"]
   spec.require_paths = ["lib"]
 
   # Add development dependencies

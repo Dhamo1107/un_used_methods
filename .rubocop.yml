@@ -6,3 +6,6 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Lint/ScriptPermission:
+  Enabled: false

@@ -45,37 +45,17 @@ module UnUsedMethods
     end
 
     def extract_methods(file)
-      methods = []
       content = File.read(file)
-      content.scan(/def (\w+)/).flatten.each do |method_name|
-        methods << method_name
-      end
-      methods
+      content.scan(/def (\w+)/).flatten
     end
 
     def method_used?(method)
-      # Perform a search across the entire app to see if the method is used
-      def method_used?(method)
-        method_pattern = /#{method}/
-        files = Dir.glob('app/**/*.{rb}')
-        method_used = false
+      method_pattern = /#{method}/
+      files = Dir.glob("app/**/*.{rb}")
 
-        if RUBY_PLATFORM =~ /win32|win64|cygwin|mswin|mingw/
-          # Windows-specific logic
-          files.each do |file|
-            content = File.read(file)
-            if content =~ method_pattern
-              method_used = true
-              break
-            end
-          end
-        else
-          # Unix-like (Linux, macOS) specific logic using `grep`
-          grep_result = `grep -r "#{method}" app/`
-          method_used = grep_result.split("\n").size > 1
-        end
-
-        method_used
+      files.any? do |file|
+        content = File.read(file)
+        content.match?(method_pattern)
       end
     end
 
@@ -83,7 +63,7 @@ module UnUsedMethods
       if unused_methods.empty?
         puts "No un used methods found!"
       else
-        puts "Un used Methods found in your model, controller and helper directories:"
+        puts "Un used Methods found in your model, controller, and helper directories:"
         unused_methods.each { |method| puts method }
       end
     end

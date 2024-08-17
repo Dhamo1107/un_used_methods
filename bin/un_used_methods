@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 #!/usr/bin/env ruby
 
-require 'bundler/setup'
-require 'un_used_methods'
-require 'un_used_methods/analyzer'
+require "bundler/setup"
+require "un_used_methods"
+require "un_used_methods/analyzer"
 
 UnUsedMethods::CLI.start(ARGV)
