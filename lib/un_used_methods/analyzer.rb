@@ -54,6 +54,9 @@ module UnUsedMethods
       # Check if method is used in any file other than its own definition file
       return true if file_contains_method_call?(files, definition_file, method_call_patterns)
 
+      # Check if the method is used in callbacks like `before_action` or `after_action`
+      return true if method_used_in_callback?(method, files)
+
       # Check method usage within its own file
       method_called_in_own_file?(definition_file, method_call_patterns)
     end
@@ -61,7 +64,9 @@ module UnUsedMethods
     def build_method_call_patterns(method)
       [
         /(\.|^|\s)#{method}\s*\(/, # Matches method calls with parameters
-        /(\.|^|\s)#{method}\b(?!\()/ # Matches method calls without parameters
+        /(\.|^|\s)#{method}\b(?!\()/, # Matches method calls without parameters
+        /(\.|^|\s):#{method}\b/, # Matches method references as symbols (e.g., :method_name)
+        /\b#{method}\b/ # Matches method as a standalone word, e.g., when passed as an argument
       ]
     end
 
@@ -79,6 +84,16 @@ module UnUsedMethods
       patterns.any? { |pattern| content.scan(pattern).count > 1 }
     end
 
+    def method_used_in_callback?(method, files)
+      # Create a dynamic regex pattern to match any Rails callback with the given method
+      callback_pattern = /\b(before|after|around|validate|commit|save|create|update|destroy)\w*\s*:#{method}\b/
+
+      files.any? do |file|
+        content = read_file(file)
+        content.match?(callback_pattern)
+      end
+    end
+
     def read_file(file)
       content = File.read(file)
       strip_comments(content, file)
@@ -87,8 +102,8 @@ module UnUsedMethods
     def strip_comments(content, file)
       case File.extname(file)
       when ".rb"
-        # Remove Ruby comments
-        content.gsub(/#.*$/, "")
+        # Remove Ruby comments and strings
+        content.gsub(/#.*$/, "").gsub(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/, "")
       when ".erb", ".html", ".haml", ".slim"
         # Remove HTML, ERB, HAML, SLIM comments
         content.gsub(/<!--.*?-->/m, "").gsub(/<%#.*?%>/m, "")
