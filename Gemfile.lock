@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    un_used_methods (0.1.1)
+    un_used_methods (0.1.2)
       thor (~> 1.0)
 
 GEM
