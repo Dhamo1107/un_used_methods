@@ -38,9 +38,6 @@ This command will analyze your codebase and print out any unused methods it find
 ## Example Output
 
 ```plaintext
-Method 'test' called in file: app/models/test.rb
-Method 'another_method' not called anywhere in the project
-
 Unused Methods found in your model, controller and helper directories:
 app/models/test.rb: another_method
 ```
