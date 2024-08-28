@@ -41,6 +41,10 @@ This command will analyze your codebase and print out any unused methods it find
 Unused Methods found in your model, controller and helper directories:
 app/models/test.rb: another_method
 ```
+Or
+```plaintext
+No unused methods found!
+```
 
 ## Configuration
 
