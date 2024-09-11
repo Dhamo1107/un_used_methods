@@ -1,6 +1,7 @@
 # UnUsedMethods Gem
 
 [![Gem Version](https://badge.fury.io/rb/un_used_methods.svg)](https://badge.fury.io/rb/un_used_methods)
+[![Ruby](https://github.com/Dhamo1107/un_used_methods/actions/workflows/main.yml/badge.svg)](https://github.com/Dhamo1107/un_used_methods/actions/workflows/main.yml)
 
 The `un_used_methods` gem is designed to help you identify and clean up unused methods in your Ruby on Rails application. In a large codebase, it can be challenging to track which methods are actively used and which are obsolete. The `un_used_methods` gem scans your application's codebase and identifies methods that are defined but not used anywhere else in your project. This helps you spot and remove unnecessary code, improving maintainability and performance.
 
